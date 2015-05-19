@@ -12,6 +12,7 @@ import com.HuangQi.Game.model.BaseModel;
  */
 public class ZombiesManager extends BaseModel {
 
+    private float brithZombieTimePitch = 20;
     public ZombiesManager() {
         super(0,0);
         this.setBrithTime(System.currentTimeMillis());
@@ -19,7 +20,7 @@ public class ZombiesManager extends BaseModel {
 
     @Override
     public void drawSelf(Canvas canvas) {
-        if (System.currentTimeMillis() - this.getBirthTime() > 10000){
+        if (System.currentTimeMillis() - this.getBirthTime() > this.brithZombieTimePitch * 1000) {
             this.setBrithTime(System.currentTimeMillis());
             brith2Zombie();
         }
@@ -30,6 +31,8 @@ public class ZombiesManager extends BaseModel {
         Log.v("Zombie","runWayIndex is " + runWayIndex);
         Zombie zombie = new Zombie(new Point(Config.deviceWidth - Config.zombieCardWith/2,Config.raceWayLocationY[runWayIndex]),runWayIndex);
         this.addToView(zombie);
-
+        if (this.brithZombieTimePitch > 8) {
+            this.brithZombieTimePitch -= 0.2;
+        }
     }
 }

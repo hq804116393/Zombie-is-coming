@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.util.Log;
 
 import com.HuangQi.Game.entity.Bullet;
 import com.HuangQi.Game.entity.Sun;
@@ -19,17 +18,12 @@ import com.HuangQi.Game.view.GameView;
  */
 public class Zombie extends BaseModel {
     private int frameIndex = 0;
-    private float moveSpeedPerTimes = Config.gameBK.getWidth() / 10 / 20.0f;
+    private float moveSpeedPerTimes = Config.gameBK.getWidth() / 15 / 20.0f;
     private float movedDistance = 0;
     private Bitmap bitmap;
     private int  attackedStateTime = 0;
 
     private BaseModel baseModel = null;
-
-    public void setIsStop(boolean isStop) {
-        this.isStop = isStop;
-    }
-
     private boolean isStop = false;
 
     public Zombie(int locationX, int locationY,int runWayIndex) {
@@ -42,11 +36,16 @@ public class Zombie extends BaseModel {
         this.setDefense(10);
     }
 
+    public Zombie(Point gravityCenter, int runWayIndex) {
+        this((int) (gravityCenter.x - Config.zombieCardWith / 2.0), (int) (gravityCenter.y - Config.zombieCardHeight * 7 / 8.0), runWayIndex);
+    }
+
+    public void setIsStop(boolean isStop) {
+        this.isStop = isStop;
+    }
+
     public Point  getGravityCenter(){
         return new Point((int)(this.getCenter().x), (int)(this.getCenter().y + this.getHeight() * 3/8.0));
-    }
-    public Zombie(Point gravityCenter,int runWayIndex ) {
-        this((int)(gravityCenter.x - Config.zombieCardWith / 2.0),(int)(gravityCenter.y - Config.zombieCardHeight * 7/8.0), runWayIndex);
     }
 
     @Override
