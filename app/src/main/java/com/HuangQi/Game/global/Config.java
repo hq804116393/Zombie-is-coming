@@ -66,4 +66,5 @@ public class Config {
     public static int bulletShootSend;
     public static int bulletShootShoot;
 
+    public static int zombieDeadSound;
 }

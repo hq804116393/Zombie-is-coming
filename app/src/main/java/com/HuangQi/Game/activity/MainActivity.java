@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
         //自定义策略
         UserStrategy strategy = new UserStrategy(getApplicationContext()); //App的策略Bean
         strategy.setAppChannel( "Development");     //设置渠道
-        strategy.setAppVersion("Development_v3.0");      //App的版本
+        strategy.setAppVersion("Development_v3.1");      //App的版本
         strategy.setAppReportDelay(1000);  //设置SDK处理延时，毫秒
         CrashReport.initCrashReport(appContext, appId, isDebug, strategy); //自定义策略生效，必须在初始化SDK前调用
 
@@ -235,9 +235,10 @@ public class MainActivity extends Activity {
     }
 
     private void initSoundPool() {
-        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
-        Config.bulletShootSend = soundPool.load(getApplicationContext(), R.raw.bleep, 2);
-        Config.bulletShootShoot = soundPool.load(getApplicationContext(), R.raw.blover, 1);
+        soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        Config.bulletShootSend = soundPool.load(getApplicationContext(), R.raw.floop, 0);
+        Config.bulletShootShoot = soundPool.load(getApplicationContext(), R.raw.puff, 0);
+        Config.zombieDeadSound = soundPool.load(getApplicationContext(),R.raw.scream,0);
     }
 
 

@@ -118,6 +118,7 @@ public class Zombie extends BaseModel {
         if (this.attackedStateTime <= 0)
             this.attackedStateTime = 10;
         if (this.getLiveValue() <= 0){
+            this.playDeadSound();
             this.setIsALive(false);
         }
     }
@@ -145,5 +146,9 @@ public class Zombie extends BaseModel {
                 }
             }
         }
+    }
+    private void playDeadSound(){
+        GameView.getInstanse().getSoundPool().play(Config.zombieDeadSound, GameView.getInstanse().getVolume(), GameView.getInstanse().getVolume(), 1, 0, 1f);
+
     }
 }

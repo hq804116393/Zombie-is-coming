@@ -42,8 +42,12 @@ public class Pea extends Plant {
             Point point =  new Point(this.getLocationX(),this.getLocationY());
             point.x = (int)(60 * this.getWidth() / 80.0f + point.x);
             point.y = (int)(20 * this.getHeight() / 80.0f + point.y);
-            this.addToView(new Bullet(point,this.getMapIndex()));
-            GameView.getInstanse().getSoundPool().play(Config.bulletShootSend, GameView.getInstanse().getVolume(), GameView.getInstanse().getVolume(), 1, 1, 1f);
+            this.addToView(new Bullet(point, this.getMapIndex()));
+            this.playSound4BrithBullet();
         }
+    }
+    private void playSound4BrithBullet(){
+        GameView.getInstanse().getSoundPool().play(Config.bulletShootSend, GameView.getInstanse().getVolume(), GameView.getInstanse().getVolume(), 1, 0, 0.5f);
+
     }
 }

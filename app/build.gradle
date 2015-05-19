@@ -8,8 +8,8 @@ android {
         applicationId "com.huangqi.game"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "v3.1_20150519"
     }
     buildTypes {
         release {
