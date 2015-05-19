@@ -124,13 +124,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             public void run() {
                 synchronized (surfaceHolder) {
                     try {
-
-                        zombiesManager.drawSelf(canvas);
                         canvas = surfaceHolder.lockCanvas();
                         canvas.drawBitmap(Config.gameBK, 0, 0, paint);
                         canvas.drawBitmap(Config.seedBank, (Config.deviceWidth - Config.seedBank.getWidth()) / 2, 0, paint);
 
-                        drawSunCount();
+
+                        drawSunCount(canvas);
+                        zombiesManager.drawSelf(canvas);
 
                         updata();
                         ondraw(canvas);
@@ -142,10 +142,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
                 }
             }
-            private void drawSunCount() {
+
+            private void drawSunCount(Canvas canvas) {
                 Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
                 paint.setStrokeWidth(3);
-                paint.setTextSize(30);
+                paint.setTextSize(25);
                 paint.setColor(0xffff0000);
                 Paint.FontMetricsInt fontMetrics = paint.getFontMetricsInt();
                 int baseline = Config.sunCountRect.top + (Config.sunCountRect.bottom - Config.sunCountRect.top - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
@@ -169,6 +170,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     @Override
     public void run() {
         while (gameRunFlag) {
+
+
 //            synchronized (surfaceHolder) {
 //
 //                try {
@@ -334,7 +337,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
             if (!delete) {
                 if (gameLayout4Emplace.size() < 1) {
-                    gameLayout4Emplace.add((BaseModel) emplacePlant);
+                    gameLayout4Emplace.add(emplacePlant);
                 }
             } else {
                 gameLayout4Emplace.remove(emplacePlant);

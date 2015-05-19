@@ -18,15 +18,20 @@ import com.HuangQi.Game.view.GameView;
  */
 public class Zombie extends BaseModel {
     private int frameIndex = 0;
-    private float moveSpeedPerTimes = Config.gameBK.getWidth() / 15 / 20.0f;
+
+    public void setMoveSpeedPerTimes(float moveSpeed) {
+        this.moveSpeedPerTimes = Config.gameBK.getWidth() / moveSpeedPerTimes / 20.0f;
+    }
+
+    private float moveSpeedPerTimes = Config.gameBK.getWidth() / 25 / 20.0f;
     private float movedDistance = 0;
     private Bitmap bitmap;
-    private int  attackedStateTime = 0;
+    private int attackedStateTime = 0;
 
     private BaseModel baseModel = null;
     private boolean isStop = false;
 
-    public Zombie(int locationX, int locationY,int runWayIndex) {
+    public Zombie(int locationX, int locationY, int runWayIndex) {
         super(locationX, locationY);
         this.setWidth(Config.zombieCardWith);
         this.setHeight(Config.zombieCardHeight);
@@ -44,33 +49,32 @@ public class Zombie extends BaseModel {
         this.isStop = isStop;
     }
 
-    public Point  getGravityCenter(){
-        return new Point((int)(this.getCenter().x), (int)(this.getCenter().y + this.getHeight() * 3/8.0));
+    public Point getGravityCenter() {
+        return new Point(this.getCenter().x, (int) (this.getCenter().y + this.getHeight() * 3 / 8.0));
     }
 
     @Override
     public void drawSelf(Canvas canvas) {
 
         if (this.isALive()) {
-            if (baseModel !=null && !baseModel.isALive()){
+            if (baseModel != null && !baseModel.isALive()) {
                 this.setIsStop(false);
                 baseModel = null;
             }
             if (!this.isStop) {
                 this.movedDistance += moveSpeedPerTimes;
                 this.setLocationX((int) (this.getLocationX() - this.moveSpeedPerTimes));
-                if (this.getLocationX() + this.getWidth() < 1)
-                {
+                if (this.getLocationX() + this.getWidth() < 1) {
                     this.setIsALive(false);
                 }
             }
-            bitmap = Config.zombieFrames[frameIndex].copy(Config.zombieFrames[frameIndex].getConfig(),true);
+            bitmap = Config.zombieFrames[frameIndex].copy(Config.zombieFrames[frameIndex].getConfig(), true);
             if (bitmap.getWidth() < this.getWidth() && bitmap.getHeight() < this.getHeight())
-                bitmap = DeviceTools.resizeBitmap(bitmap,this.getWidth(),this.getHeight());
+                bitmap = DeviceTools.resizeBitmap(bitmap, this.getWidth(), this.getHeight());
 
             Paint paint = new Paint();
             setAttackedPaint(paint);
-            canvas.drawBitmap(bitmap,this.getLocationX(),this.getLocationY(),paint);
+            canvas.drawBitmap(bitmap, this.getLocationX(), this.getLocationY(), paint);
             frameIndex = (++frameIndex) % Config.zombieFrames.length;
 
             checkCollision(this);
@@ -83,28 +87,25 @@ public class Zombie extends BaseModel {
 
 
     public void collision(BaseModel baseModel) {
-        if (baseModel instanceof Sun){
+        if (baseModel instanceof Sun) {
             collisionWithSun(baseModel);
-        }else if (baseModel instanceof Bullet){
+        } else if (baseModel instanceof Bullet) {
             collisionWithBullet(baseModel);
-        }else if(baseModel instanceof Plant){
+        } else if (baseModel instanceof Plant) {
             collisionWithPlant(baseModel);
         }
     }
 
 
-
-    private void collisionWithSun(BaseModel baseModel){
+    private void collisionWithSun(BaseModel baseModel) {
         Point gravityCenter = this.getGravityCenter();
-        float scale = this.getHeight() / (float)this.getWidth();
+        float scale = this.getHeight() / (float) this.getWidth();
         int xincrece = 10;
-        int yincrece = (int)( xincrece * scale );
-        if (this.getWidth() + xincrece>Config.zombieCardWith*2 || this.getHeight()  + yincrece > Config.zombieCardHeight*2)
-        {
+        int yincrece = (int) (xincrece * scale);
+        if (this.getWidth() + xincrece > Config.zombieCardWith * 2 || this.getHeight() + yincrece > Config.zombieCardHeight * 2) {
             this.setWidth(Config.zombieCardWith * 2);
             this.setHeight(Config.zombieCardHeight * 2);
-        }else
-        {
+        } else {
             this.setHeight(this.getHeight() + yincrece);
             this.setWidth(this.getWidth() + xincrece);
         }
@@ -112,43 +113,47 @@ public class Zombie extends BaseModel {
         this.setLiveValue(this.getLiveValue() + 10);
         this.setLocation(gravityCenter);
     }
-    private void collisionWithBullet(BaseModel baseModel){
+
+    private void collisionWithBullet(BaseModel baseModel) {
         this.setLiveValue(this.getLiveValue() - 30 * 10 / this.getDefense());
         this.setIsAttacked(true);
         if (this.attackedStateTime <= 0)
             this.attackedStateTime = 10;
-        if (this.getLiveValue() <= 0){
+        if (this.getLiveValue() <= 0) {
             this.playDeadSound();
             this.setIsALive(false);
         }
     }
+
     private void collisionWithPlant(BaseModel baseModel) {
         this.isStop = true;
         this.baseModel = baseModel;
     }
 
     private void setLocation(Point gravityCenter) {
-       this.setLocationX((int)(gravityCenter.x - this.getWidth() / 2.0));
-       this.setLocationY((int)(gravityCenter.y - this.getHeight() * 7/8.0));
+        this.setLocationX((int) (gravityCenter.x - this.getWidth() / 2.0));
+        this.setLocationY((int) (gravityCenter.y - this.getHeight() * 7 / 8.0));
     }
-    private void setAttackedPaint(Paint paint){
-        if (this.isAttacked()){
-            if (attackedStateTime < 0){
+
+    private void setAttackedPaint(Paint paint) {
+        if (this.isAttacked()) {
+            if (attackedStateTime < 0) {
                 this.setIsAttacked(false);
-            }else{
+            } else {
 //                paint.setColor(0x80ff0000);
-                attackedStateTime --;
-                if (attackedStateTime % 2 == 0){
+                attackedStateTime--;
+                if (attackedStateTime % 2 == 0) {
                     paint.setAlpha(100);
-                }else
-                {
+                } else {
                     paint.setAlpha(250);
                 }
             }
         }
     }
-    private void playDeadSound(){
+
+    private void playDeadSound() {
         GameView.getInstanse().getSoundPool().play(Config.zombieDeadSound, GameView.getInstanse().getVolume(), GameView.getInstanse().getVolume(), 1, 0, 1f);
 
     }
+
 }

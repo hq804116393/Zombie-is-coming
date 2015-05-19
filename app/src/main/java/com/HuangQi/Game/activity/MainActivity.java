@@ -114,10 +114,10 @@ public class MainActivity extends Activity {
                 + (int)(Config.seedCardWidth / (float)3);
 
         Config.seedFlower = BitmapFactory.decodeResource(getResources(), R.drawable.seed_flower);
-        Config.seedFlower = DeviceTools.resizeBitmap(Config.seedFlower, (int) Config.seedCardWidth, (int) Config.seedCardHeight);
+        Config.seedFlower = DeviceTools.resizeBitmap(Config.seedFlower, Config.seedCardWidth, Config.seedCardHeight);
 
         Config.seedPea = BitmapFactory.decodeResource(getResources(), R.drawable.seed_pea);
-        Config.seedPea = DeviceTools.resizeBitmap(Config.seedPea, (int) Config.seedCardWidth, (int) Config.seedCardHeight);
+        Config.seedPea = DeviceTools.resizeBitmap(Config.seedPea, Config.seedCardWidth, Config.seedCardHeight);
 
     }
     private void initGroundCard() {
@@ -170,7 +170,7 @@ public class MainActivity extends Activity {
 
         //植物的宽度
         //Config.plantCardWidth = (int)(Config.groundCardWidth * 3/(float)4);
-        Config.plantCardWidth = (int)(Config.groundCardWidth);
+        Config.plantCardWidth = Config.groundCardWidth;
         //植物的高度
         //Config.plantCardHeight = (int)(Config.groundCardHeight * 3/(float)4);
         Config.plantCardHeight = Config.plantCardWidth;
@@ -178,8 +178,8 @@ public class MainActivity extends Activity {
         for (int i = 0; i < Config.flowerFrames.length;i ++){
             //Config.flowerFrames[i] = DeviceTools.resizeBitmap(Config.flowerFrames[i],(int)Config.seedCardWidth,(int)Config.seedCardHeight);
             //Config.peaFrames[i] = DeviceTools.resizeBitmap(Config.peaFrames[i],(int)Config.seedCardWidth,(int)Config.seedCardHeight);
-            Config.flowerFrames[i] = DeviceTools.resizeBitmap(Config.flowerFrames[i],(int)Config.plantCardWidth,(int)Config.plantCardHeight);
-             Config.peaFrames[i] = DeviceTools.resizeBitmap(Config.peaFrames[i],(int)Config.plantCardWidth,(int)Config.plantCardHeight);
+            Config.flowerFrames[i] = DeviceTools.resizeBitmap(Config.flowerFrames[i], Config.plantCardWidth, Config.plantCardHeight);
+            Config.peaFrames[i] = DeviceTools.resizeBitmap(Config.peaFrames[i], Config.plantCardWidth, Config.plantCardHeight);
         }
 
     }
@@ -232,6 +232,9 @@ public class MainActivity extends Activity {
         Config.sunCountRect = new Rect((int)(12 *widthScale),(int)(61*heightScale),(int)(65*widthScale),(int)(83*heightScale));
         Config.sunCountRect.left += (Config.deviceWidth - Config.seedBank.getWidth()) /2.0;
         Config.sunCountRect.right += (Config.deviceWidth - Config.seedBank.getWidth()) /2.0;
+
+        Config.timeCountDownRect = new Rect(Config.deviceWidth * 9 / 10, Config.deviceHeight * 9 / 20, Config.deviceWidth, Config.deviceHeight * 11 / 20);
+
     }
 
     private void initSoundPool() {

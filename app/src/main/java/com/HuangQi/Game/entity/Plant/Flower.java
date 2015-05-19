@@ -8,7 +8,6 @@ import android.util.Log;
 import com.HuangQi.Game.entity.Sun;
 import com.HuangQi.Game.global.Config;
 import com.HuangQi.Game.model.Plant;
-import com.HuangQi.Game.view.GameView;
 
 /**
  * Created by Qi on 2015/5/6.
@@ -39,7 +38,7 @@ public class Flower extends Plant {
         }
     }
     private void brith2Sun(){
-        if (System.currentTimeMillis() - this.getBirthTime() > 1000)
+        if (System.currentTimeMillis() - this.getBirthTime() > 5 * 1000)
         {
             this.setBrithTime(System.currentTimeMillis());
             int runWayIndex = (int)(Math.random() * 5);
