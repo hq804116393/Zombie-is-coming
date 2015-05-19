@@ -40,7 +40,6 @@ public class ZombiesManager extends BaseModel {
         this.addToView(zombie);
         if (this.brithZombieTimePitch > 8) {
             this.brithZombieTimePitch -= 0.2;
-
         }
     }
 
