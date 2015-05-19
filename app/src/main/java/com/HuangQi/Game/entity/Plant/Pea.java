@@ -3,12 +3,11 @@ package com.HuangQi.Game.entity.Plant;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.util.Log;
 
 import com.HuangQi.Game.entity.Bullet;
-import com.HuangQi.Game.entity.Sun;
 import com.HuangQi.Game.global.Config;
 import com.HuangQi.Game.model.Plant;
+import com.HuangQi.Game.view.GameView;
 
 /**
  * Created by Qi on 2015/5/6.
@@ -44,6 +43,7 @@ public class Pea extends Plant {
             point.x = (int)(60 * this.getWidth() / 80.0f + point.x);
             point.y = (int)(20 * this.getHeight() / 80.0f + point.y);
             this.addToView(new Bullet(point,this.getMapIndex()));
+            GameView.getInstanse().getSoundPool().play(Config.bulletShootSend, GameView.getInstanse().getVolume(), GameView.getInstanse().getVolume(), 1, 1, 1f);
         }
     }
 }

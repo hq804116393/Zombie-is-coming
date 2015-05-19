@@ -3,13 +3,15 @@ package com.HuangQi.Game.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.HuangQi.Game.activity.MainActivity;
 import com.HuangQi.Game.entity.Bullet;
-import com.HuangQi.Game.entity.EmplaceFlower.EmplacePea;
 import com.HuangQi.Game.entity.Seed.SeedFlower;
 import com.HuangQi.Game.entity.Seed.SeedPea;
 import com.HuangQi.Game.entity.Sun;
@@ -28,26 +30,25 @@ import java.util.ArrayList;
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 
+
+    private static GameView gameView;
     final private int PlantOrderInOneRunWay = 0;
     final private int ZibieOerInOneRunWay = 1;
     final private int BulletOrderInOneRunWay = 2;
     final private int SunOrderInOneRunWay = 3;
-
-    private boolean[] mapIndexIsUsed = new boolean[50];
     //private ArrayList<Integer> mapIndexIsUsed =  new ArrayList<>();
+    private boolean[] mapIndexIsUsed = new boolean[50];
     private ArrayList<BaseModel> deadList = new ArrayList<>();
-
     private ArrayList<BaseModel> addList = new ArrayList<>();
-
-
-
-    private static GameView gameView;
-
     private Canvas canvas;
     private Paint paint;
     private SurfaceHolder surfaceHolder;
     private boolean gameRunFlag;
     private Context context;
+
+
+    private SoundPool soundPool;
+
 //    private ArrayList<BaseModel> deadList;
 
 
@@ -67,11 +68,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     public GameView(Context context) {
         super(context);
         this.context = context;
+        this.soundPool = ((MainActivity) context).getSoundPool();
         paint = new Paint();
         surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
         gameRunFlag = true;
         gameView = this;
+
 
     }
 
@@ -384,5 +387,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     public boolean isExistInMapIndex(Integer key) {
         return mapIndexIsUsed[key];
     }
+
+
+    public SoundPool getSoundPool() {
+        return soundPool;
+    }
+
+    public void setSoundPool(SoundPool soundPool) {
+        this.soundPool = soundPool;
+
+    }
+
+    public int getVolume() {
+        AudioManager mgr = (AudioManager) this.context.getSystemService(Context.AUDIO_SERVICE);
+        return mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
+    }
+
 }
 

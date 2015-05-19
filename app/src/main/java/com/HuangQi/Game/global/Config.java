@@ -61,4 +61,9 @@ public class Config {
     public static int sunCount = 50;
     public static Point sunCountLocation = new Point();
     public static Rect sunCountRect;
+
+
+    public static int bulletShootSend;
+    public static int bulletShootShoot;
+
 }

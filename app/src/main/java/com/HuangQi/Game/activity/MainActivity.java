@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.ImageView;
@@ -13,7 +15,6 @@ import com.HuangQi.Game.R;
 import com.HuangQi.Game.global.Config;
 import com.HuangQi.Game.tools.DeviceTools;
 import com.HuangQi.Game.view.GameView;
-
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.bugly.crashreport.CrashReport.UserStrategy;
 
@@ -24,6 +25,8 @@ import com.tencent.bugly.crashreport.CrashReport.UserStrategy;
 public class MainActivity extends Activity {
     private GameView gameView;
 
+
+    private SoundPool soundPool;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +97,8 @@ public class MainActivity extends Activity {
         //8.
         initSunCount();
 
+        //9.
+        initSoundPool();
     }
 
 
@@ -228,4 +233,21 @@ public class MainActivity extends Activity {
         Config.sunCountRect.left += (Config.deviceWidth - Config.seedBank.getWidth()) /2.0;
         Config.sunCountRect.right += (Config.deviceWidth - Config.seedBank.getWidth()) /2.0;
     }
+
+    private void initSoundPool() {
+        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+        Config.bulletShootSend = soundPool.load(getApplicationContext(), R.raw.bleep, 2);
+        Config.bulletShootShoot = soundPool.load(getApplicationContext(), R.raw.blover, 1);
+    }
+
+
+    public SoundPool getSoundPool() {
+        return soundPool;
+    }
+
+    public void setSoundPool(SoundPool soundPool) {
+        this.soundPool = soundPool;
+    }
+
+
 }
